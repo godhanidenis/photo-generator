@@ -42,6 +42,8 @@ const InfiniteGrid = () => {
           fullWidth
           id="searchBar"
           disableUnderline={true}
+          disableTouchRipple
+          disableRipple
           sx={{
             paddingLeft: 3,
             borderRadius: 10,
