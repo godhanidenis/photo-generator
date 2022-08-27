@@ -52,14 +52,14 @@ const InfiniteGrid = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          // onKeyUp={(e) => {
-          //   // if (e.key === "Enter") {
-          //   console.log("000",e)
-          //   console.log(document.getElementById("searchBar").value);
-          //       setImgList([]);
-          //       setPaginationIndex(() => 0);
-          //       setSearchValue(document.getElementById("searchBar").value);
-          // }}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+            console.log("000",e)
+            console.log(document.getElementById("searchBar").value);
+                setImgList([]);
+                setPaginationIndex(() => 0);
+                setSearchValue(document.getElementById("searchBar").value);}
+          }}
           endAdornment={
             <IconButton
               type="submit"
