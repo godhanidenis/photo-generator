@@ -1,5 +1,14 @@
 import React, { useEffect } from "react";
-import { Box, FilledInput, Grid, IconButton } from "@mui/material";
+import {
+  Box,
+  FilledInput,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputBase,
+  OutlinedInput,
+} from "@mui/material";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Imgbox from "./Imgbox";
@@ -17,33 +26,71 @@ const InfiniteGrid = () => {
         `https://api.infinitestockphotos.com/search?prompt=${searchValue}&offset=${paginationIndex}`
       )
       .then((e) => {
-        console.log(e.data.root.children);
         setImgList(imgList.concat(...e.data.root.children));
       });
   };
 
   useEffect(() => {
     if (searchValue !== "") {
+      console.log(imgList?.length);
+      console.log(imgList);
       setTimeout(() => {
         getList();
-      },500);
+      }, 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationIndex]);
 
-
   return (
     <>
+    {/* <InputBase
+          // value={searchValue}
+          fullWidth
+          placeholder="Search"
+          id="searchBar"
+          sx={{background:"white", borderRadius:10 , p:1}}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              setImgList([]);
+              setPaginationIndex(() => 0);
+              setSearchValue(e.target.value);
+            }
+
+          }}
+          // onChange={(e) => {
+          //   setSearchValue(e.currentTarget.value);            
+          // }}
+          size="large"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                // aria-label="toggle password visibility"
+                onClick={() => {
+                  setImgList([]);
+                  setPaginationIndex(() => 0);
+                  setSearchValue(document.getElementById("searchBar").value);
+                }}
+                edge="end"
+              >
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+        /> */}
+
       <Box sx={{ background: "white", borderRadius: 10 }}>
+       
         <FilledInput
           placeholder="search"
           fullWidth
           id="searchBar"
-          disableUnderline={true}          
+          disableUnderline={true}
           disableTouchRipple={true}
-          disableRipple      
+          disableRipple
+          // focusRipple={false}
           sx={{
-            paddingLeft: 3,            
+            // paddingLeft: 3,
+            m:1,
             borderRadius: 10,
             display: "flex",
             justifyContent: "center",
@@ -51,11 +98,11 @@ const InfiniteGrid = () => {
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-            console.log("000",e)
-            console.log(document.getElementById("searchBar").value);
-                setImgList([]);
-                setPaginationIndex(() => 0);
-                setSearchValue(document.getElementById("searchBar").value);}
+              console.log(document.getElementById("searchBar").value);
+              setImgList([]);
+              setPaginationIndex(() => 0);
+              setSearchValue(document.getElementById("searchBar").value);
+            }
           }}
           endAdornment={
             <IconButton

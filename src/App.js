@@ -18,7 +18,7 @@ function App() {
       >
         <Typography sx={{ fontWeight: "bold" }}>HEADER</Typography>
       </Box>
-      <Grid container sx={{ display: "flex", justifyContent: "center" , marginTop:2}}>
+      <Grid container sx={{ display: "flex", justifyContent: "center" , marginTop:4}}>
         <Grid item lg={8} md={8} sm={8} xs={11}>
           <Stack
             direction={"column"}
