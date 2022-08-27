@@ -41,9 +41,10 @@ const InfiniteGrid = () => {
           placeholder="search"
           fullWidth
           id="searchBar"
-          disableUnderline={true}
-          disableTouchRipple
+          disableUnderline={true}          
+          disableTouchRipple={true}
           disableRipple
+          // focusRipple={false}
           sx={{
             paddingLeft: 3,
             borderRadius: 10,
@@ -51,6 +52,14 @@ const InfiniteGrid = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          // onKeyUp={(e) => {
+          //   // if (e.key === "Enter") {
+          //   console.log("000",e)
+          //   console.log(document.getElementById("searchBar").value);
+          //       setImgList([]);
+          //       setPaginationIndex(() => 0);
+          //       setSearchValue(document.getElementById("searchBar").value);
+          // }}
           endAdornment={
             <IconButton
               type="submit"
@@ -71,7 +80,7 @@ const InfiniteGrid = () => {
       {imgList?.length === 0 && searchValue !== "" && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <FadeLoader
-            color="#00BFFF"
+            color="#ffffff"
             cssOverride={{ top: "0px", marginTop: "35px" }}
           />
         </Box>
@@ -87,7 +96,7 @@ const InfiniteGrid = () => {
             imgList?.length && (
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <FadeLoader
-                  color="#00BFFF"
+                  color="#ffffff"
                   cssOverride={{ top: "0px", marginTop: "35px" }}
                 />
               </Box>
