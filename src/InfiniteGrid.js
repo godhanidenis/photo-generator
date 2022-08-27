@@ -1,104 +1,77 @@
-import React, { useEffect } from "react";
-import { Box, FilledInput, Grid, IconButton } from "@mui/material";
-import axios from "axios";
+import React from "react";
+import { Grid, IconButton, Input, InputAdornment } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Imgbox from "./Imgbox";
 import SearchIcon from "@mui/icons-material/Search";
-import { FadeLoader } from "react-spinners";
+import Imgbox from "./Components/Imgbox";
+import { getSearchData } from "./service";
+import Loading from "./Components/Loading";
+import { Box } from "@mui/system";
 
 const InfiniteGrid = () => {
   const [imgList, setImgList] = React.useState([]);
   const [paginationIndex, setPaginationIndex] = React.useState(null);
   const [searchValue, setSearchValue] = React.useState("");
+  const [hasMore, setHasMore] = React.useState(true);
 
-  const getList = async () => {
-    await axios
-      .get(
-        `https://api.infinitestockphotos.com/search?prompt=${searchValue}&offset=${paginationIndex}`
-      )
-      .then((e) => {
-        console.log(e.data.root.children);
-        setImgList(imgList.concat(...e.data.root.children));
-      });
-  };
-
-  useEffect(() => {
+  const appendNextData = (pageIndex) => {
+    setPaginationIndex(pageIndex);
     if (searchValue !== "") {
       setTimeout(() => {
-        getList();
-      },500);
+        getSearchData({
+          paginationIndex: pageIndex,
+          searchData: searchValue,
+        }).then((res) => {
+          setHasMore(res?.data?.root?.children ? "true" : "false");
+          res.data.root.children &&
+            setImgList(imgList.concat(...res.data.root.children));
+          return res.data.root.children;
+        });
+      }, 500);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paginationIndex]);
-
-
+  };
+  console.log(hasMore);
   return (
     <>
-      <Box sx={{ background: "white", borderRadius: 10 }}>
-        <FilledInput
-          placeholder="search"
-          fullWidth
-          id="searchBar"
-          disableUnderline={true}          
-          disableTouchRipple={true}
-          disableRipple      
-          sx={{
-            paddingLeft: 3,            
-            borderRadius: 10,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-            console.log("000",e)
-            console.log(document.getElementById("searchBar").value);
-                setImgList([]);
-                setPaginationIndex(() => 0);
-                setSearchValue(document.getElementById("searchBar").value);}
-          }}
-          endAdornment={
+      <Input
+        value={searchValue}
+        onChange={(e) => {
+          setSearchValue(e.currentTarget.value);
+        }}
+        sx={{ background: "white", borderRadius: 10, pl: 2, height: "45px" }}
+        placeholder="search"
+        disableUnderline={true}
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            setImgList([]);
+            appendNextData(0);
+          }
+        }}
+        endAdornment={
+          <InputAdornment position="end">
             <IconButton
               type="submit"
               sx={{ p: "10px" }}
               aria-label="search"
-              onClick={(e) => {
-                console.log(document.getElementById("searchBar").value);
+              onClick={() => {
                 setImgList([]);
-                setPaginationIndex(() => 0);
-                setSearchValue(document.getElementById("searchBar").value);
+                appendNextData(0);
               }}
             >
               <SearchIcon />
             </IconButton>
-          }
-        />
-      </Box>
-      {imgList?.length === 0 && searchValue !== "" && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <FadeLoader
-            color="#ffffff"
-            cssOverride={{ top: "0px", marginTop: "35px" }}
-          />
-        </Box>
+          </InputAdornment>
+        }
+      />
+
+      {imgList?.length === 0 && paginationIndex === 0 && hasMore === true && (
+        <Loading />
       )}
       {imgList?.length !== 0 && (
         <InfiniteScroll
           dataLength={imgList?.length}
-          next={() => {
-            setPaginationIndex(paginationIndex + 1);
-          }}
-          hasMore={true}
-          loader={
-            imgList?.length && (
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <FadeLoader
-                  color="#ffffff"
-                  cssOverride={{ top: "0px", marginTop: "35px" }}
-                />
-              </Box>
-            )
-          }
+          next={() => appendNextData(paginationIndex + 1)}
+          hasMore={hasMore}
+          loader={imgList?.length && <Loading />}
         >
           <Grid container spacing={2}>
             {imgList.map((val, index) => (
@@ -106,6 +79,11 @@ const InfiniteGrid = () => {
             ))}
           </Grid>
         </InfiniteScroll>
+      )}
+      {hasMore === false && (
+        <Box sx={{ color: "white", display: "flex", justifyContent: "center" }}>
+          No More Result
+        </Box>
       )}
     </>
   );

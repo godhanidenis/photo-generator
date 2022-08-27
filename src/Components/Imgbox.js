@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, CardMedia, Grid } from "@mui/material";
-import "./App.css";
+import "../App.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -9,7 +9,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles(() => ({
   imgbox: {
     position: "relative",
-    "&:hover .imgdiscription": {
+    "&:hover $imgdiscription": {
       visibility: "visible",
       opacity: 1,
     },
@@ -30,24 +30,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 function Imgbox(props) {
-  // const classes = useStyles();
+  const classes = useStyles();
   return (
     <>
       <Grid item lg={4} md={6} sm={6} xs={12}>
-        <Box
-          class="imgbox"
-          //  className={classes.imgbox}
-        >
+        <Box className={classes.imgbox}>
           <CardMedia
-            // className="img"
             component="img"
             image={props.data.fields.image_file_name}
             alt="green iguana"
           />
 
-          <Box //className={classes.imgdiscription}
-            class="imgdiscription"
-          >
+          <Box className={classes.imgdiscription}>
             This is description for Image
             <Box
               sx={{
