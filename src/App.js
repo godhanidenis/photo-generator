@@ -1,12 +1,12 @@
 import React from "react";
 import SearchPage from "./Pages/Search_feed";
-import "./App.css";
 import BackTopButton from "./Components/BackTopButton";
+import "./App.css";
 
-function App() {
+function App() {  
   return (
     <>
-    <BackTopButton/>
+    <BackTopButton/>    
      <SearchPage />
     </>
   );

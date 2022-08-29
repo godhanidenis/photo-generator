@@ -1,12 +1,13 @@
+import React, { memo } from "react";
 import { Grid, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import React from "react";
-import InfiniteGrid from "../InfiniteGrid";
+import InfiniteGrid from "./InfiniteGrid";
 
 const SearchPage = () => {
+  console.log("main sub page")
   return (
     <>
-      <Box
+      {/* <Box
         sx={{
           backgroundColor: "#D9D9D9",
           display: "flex",
@@ -16,10 +17,10 @@ const SearchPage = () => {
         }}
       >
         <Typography sx={{ fontWeight: "bold" }}>HEADER</Typography>
-      </Box>
+      </Box> */}
       <Grid
         container
-        sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}
+        sx={{ display: "flex", justifyContent: "center", marginTop: 2  }}
       >
         <Grid item lg={8} md={8} sm={8} xs={11}>
           <Stack
@@ -27,7 +28,7 @@ const SearchPage = () => {
             spacing={2}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            {/* <Box
+            <Box
               sx={{
                 backgroundColor: "#D9D9D9",
                 display: "flex",
@@ -37,7 +38,7 @@ const SearchPage = () => {
               }}
             >
               <Typography sx={{ fontWeight: "bold" }}>HEADER</Typography>
-            </Box> */}
+            </Box>
 
             <InfiniteGrid />
           </Stack>
@@ -47,4 +48,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default memo(SearchPage);

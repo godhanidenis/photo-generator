@@ -2,9 +2,9 @@ import React from "react";
 import { Grid, IconButton, Input, InputAdornment } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SearchIcon from "@mui/icons-material/Search";
-import Imgbox from "./Components/Imgbox";
-import { getSearchData } from "./service";
-import Loading from "./Components/Loading";
+import Imgbox from "../Components/Imgbox";
+import { getSearchData } from "../service";
+import Loading from "../Components/Loading";
 import { Box } from "@mui/system";
 
 const InfiniteGrid = () => {
@@ -29,7 +29,10 @@ const InfiniteGrid = () => {
       }, 500);
     }
   };
-  console.log(hasMore);
+  const setNestPageIndex=()=>{
+    appendNextData(paginationIndex + 1)
+  }
+
   return (
     <>
       <Input
@@ -63,13 +66,13 @@ const InfiniteGrid = () => {
         }
       />
 
-      {imgList?.length === 0 && paginationIndex === 0 && hasMore === true && (
+      {imgList?.length === 0 && paginationIndex === 0 && (
         <Loading />
       )}
       {imgList?.length !== 0 && (
         <InfiniteScroll
           dataLength={imgList?.length}
-          next={() => appendNextData(paginationIndex + 1)}
+          next={setNestPageIndex}
           hasMore={hasMore}
           loader={imgList?.length && <Loading />}
         >
