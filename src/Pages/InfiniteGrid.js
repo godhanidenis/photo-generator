@@ -23,7 +23,7 @@ const InfiniteGrid = () => {
         }).then((res) => {
           setHasMore(res?.data?.root?.children ? "true" : "false");
           res.data.root.children &&
-            setImgList(imgList.concat(...res.data.root.children));
+            setImgList(pageIndex?imgList.concat(...res.data.root.children):res.data.root.children);
           return res.data.root.children;
         });
       }, 500);
